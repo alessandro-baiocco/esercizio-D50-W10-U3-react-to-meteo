@@ -118,8 +118,8 @@ const MyResult = () => {
                     />
                     <Container>
                       <p>
-                        {Math.floor(tempo[0].main.temp_max - 273, 15)} C° -{" "}
-                        {Math.floor(tempo[0].main.temp_min - 273, 15)}
+                        {Math.floor(tempo[0].main.temp_min - 273, 15)} C° - {""}
+                        {Math.floor(tempo[0].main.temp_max - 273, 15)}
                         C°
                       </p>
                       <p>{tempo[0].weather[0].main}</p>
