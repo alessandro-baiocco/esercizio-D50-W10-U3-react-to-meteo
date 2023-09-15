@@ -25,7 +25,7 @@ const Mynav = () => {
             </Link>
 
             <Link to="/ricerca" className="text-light text-decoration-none mx-2 mt-2">
-              cerca
+              cerca nel mondo
             </Link>
           </Nav>
         </Navbar.Collapse>

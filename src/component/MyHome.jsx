@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
-import { Alert, Col, Collapse, Container, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Col, Collapse, Container, Row, Spinner } from "react-bootstrap";
 
 const MyHome = () => {
   const [citta, setCitta] = useState("osimo");
+  const [cambia, setCambia] = useState("");
   const [ricerca, setRicerca] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [alert, setAlert] = useState(false);
   const [status, setStatus] = useState(200);
+
+  const cambiaCerca = (event, change) => {
+    event.preventDefault();
+    setCitta(change);
+  };
 
   const fetchaGiorno = async () => {
     try {
@@ -52,6 +58,24 @@ const MyHome = () => {
 
       {ricerca && !loading && (
         <>
+          <Container className="my-2">
+            <input
+              type="text"
+              style={{ backgroundColor: "#ffffff1a" }}
+              className="border-0 me-2 py-2 text-light"
+              placeholder={`non sei a ${citta} ?`}
+              onChange={(e) => setCambia(e.target.value)}
+            ></input>
+
+            <Button
+              className="border-dark"
+              onClick={(event) => {
+                cambiaCerca(event, cambia);
+              }}
+            >
+              <i className="bi bi-search"></i>
+            </Button>
+          </Container>
           <Container style={{ backgroundColor: "#ffffff1a" }} className="text-light">
             <h2>posizione corrente</h2>
             <h3 className="display-3">
