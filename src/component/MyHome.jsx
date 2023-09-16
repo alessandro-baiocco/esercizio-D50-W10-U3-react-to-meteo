@@ -9,6 +9,7 @@ const MyHome = () => {
   const [error, setError] = useState(false);
   const [alert, setAlert] = useState(false);
   const [status, setStatus] = useState(200);
+  const [country, setCountry] = useState("");
 
   const cambiaCerca = (event, change) => {
     event.preventDefault();
@@ -17,19 +18,33 @@ const MyHome = () => {
 
   const fetchaGiorno = async () => {
     try {
-      const request = await fetch(
+      const requestCord = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${citta}&appid=81ba62b31c758d02755836a11d185a38`
       );
-      if (request.ok) {
-        const data = await request.json();
-        setRicerca(data);
-        console.log(data);
-        setLoading(false);
+      if (requestCord.ok) {
+        const cordinates = await requestCord.json();
+        const reqLat = await cordinates.coord.lat;
+        const reqLon = await cordinates.coord.lon;
+        const country = await cordinates.sys.country;
+        setCountry(country);
+        const request = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${reqLat}&lon=${reqLon}&appid=81ba62b31c758d02755836a11d185a38`
+        );
+        if (request.ok) {
+          const data = await request.json();
+          setRicerca(data);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setError(true);
+          setStatus(request.status);
+          setAlert(true);
+        }
       } else {
+        setAlert(true);
         setLoading(false);
         setError(true);
-        setStatus(request.status);
-        setAlert(true);
+        setStatus(requestCord.status);
       }
     } catch (error) {
       console.log(error);
@@ -44,9 +59,9 @@ const MyHome = () => {
     <main
       style={{
         background: "linear-gradient(130deg, rgba(4,45,47,1) 27%, rgba(20,88,112,1) 65%, rgba(0,150,254,1) 98%)",
-        height: "100vh",
+        minHeight: "100vh",
       }}
-      className="p-4"
+      className="p-4 pb-5"
     >
       {loading && <Spinner animation="border" variant="primary" />}
       {!loading && error && alert && (
@@ -79,7 +94,7 @@ const MyHome = () => {
           <Container style={{ backgroundColor: "#ffffff1a" }} className="text-light">
             <h2>posizione corrente</h2>
             <h3 className="display-3">
-              {ricerca.name}, {ricerca.sys.country}
+              {ricerca.name}, {country}
             </h3>
             <Container fluid className="d-flex my-3">
               <img

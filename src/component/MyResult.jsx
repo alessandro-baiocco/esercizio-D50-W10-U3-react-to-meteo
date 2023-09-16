@@ -74,6 +74,7 @@ const MyResult = () => {
       <main
         style={{
           background: "linear-gradient(130deg, rgba(4,45,47,1) 27%, rgba(20,88,112,1) 65%, rgba(0,150,254,1) 98%)",
+          minHeight: "100vh",
         }}
         className="p-4"
       >
